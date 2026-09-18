@@ -4,7 +4,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
-import { queryClient } from "./queryClient";
+import { queryClient } from "@/app/queryClient";
 import { theme } from "./theme";
 
 export function Providers({ children }: { children: ReactNode }) {
