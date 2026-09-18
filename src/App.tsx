@@ -3,7 +3,7 @@ import { useState } from "react";
 import "@/App.css";
 import AppLayout from "@/app/AppLayout";
 import { PAGES, type PageKey } from "@/pages/registry";
-import { Box } from "@mui/material";
+import Box from "@mui/material/Box";
 
 function App() {
   const [activePage, setActivePage] = useState<PageKey>("search");
