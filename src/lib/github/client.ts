@@ -1,14 +1,12 @@
 import { GitHubError } from "./errors";
 
 const BASE_URL = "https://api.github.com";
-const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_TOKEN;
 
 export async function githubFetch<T>(path: string): Promise<T> {
   const url = `${BASE_URL}${path.startsWith("/") ? path : `/${path}`}`;
 
   const headers: HeadersInit = {
     Accept: "application/vnd.github+json",
-    ...(GITHUB_TOKEN ? { Authorization: `Bearer ${GITHUB_TOKEN}` } : {}),
   };
 
   let response: Response;
