@@ -16,7 +16,7 @@ export class GitHubError extends Error {
     resetAt?: Date,
   ) {
     super(message);
-    this.name = "GithubError";
+    this.name = "GitHubError";
     this.kind = kind;
     this.status = status;
     this.resetAt = resetAt;
