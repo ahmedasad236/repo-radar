@@ -5,12 +5,15 @@ import Typography from "@mui/material/Typography";
 import Skeleton from "@mui/material/Skeleton";
 import Box from "@mui/material/Box";
 
+import { useTheme } from "@mui/material/styles";
+
 import type { RepoIdentifier } from "@/lib/github/types";
 import { trackedRepoQuery } from "@/features/tracked/helpers/trackedRepoQuery";
 
 const CHART_HEIGHT = 320;
 
 export function StarsChart({ repos }: { repos: RepoIdentifier[] }) {
+  const theme = useTheme();
   const results = useQueries({
     queries: repos.map(trackedRepoQuery),
   });
@@ -41,6 +44,8 @@ export function StarsChart({ repos }: { repos: RepoIdentifier[] }) {
       {sorted.length > 0 && (
         <BarChart
           height={CHART_HEIGHT}
+          borderRadius={8}
+          hideLegend
           dataset={sorted.map((repo) => ({
             name: repo.fullName,
             stars: repo.stars,
@@ -51,6 +56,7 @@ export function StarsChart({ repos }: { repos: RepoIdentifier[] }) {
             {
               dataKey: "stars",
               label: "Stars",
+              color: theme.palette.primary.main,
               valueFormatter: (v) => (v ?? 0).toLocaleString(),
             },
           ]}

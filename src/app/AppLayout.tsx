@@ -7,9 +7,15 @@ import Tab from "@mui/material/Tab";
 import Badge from "@mui/material/Badge";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
+import Tooltip from "@mui/material/Tooltip";
+import IconButton from "@mui/material/IconButton";
+import { alpha } from "@mui/material/styles";
+import DarkModeIcon from "@mui/icons-material/DarkModeOutlined";
+import LightModeIcon from "@mui/icons-material/LightModeOutlined";
 
 import { PAGES, type PageKey } from "../pages/registry";
 import { useTrackedRepos } from "../store/trackedRepos";
+import { useColorMode } from "./themeMode";
 
 interface AppLayoutProps extends PropsWithChildren {
   activePage: PageKey;
@@ -20,11 +26,23 @@ const PAGE_KEYS = Object.keys(PAGES) as PageKey[];
 
 function AppLayout({ activePage, onPageChange, children }: AppLayoutProps) {
   const trackedCount = useTrackedRepos((s) => s.trackedRepos.length);
+  const { mode, toggle } = useColorMode();
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-      <AppBar position="static">
-        <Toolbar>
+      <AppBar
+        position="sticky"
+        elevation={0}
+        color="default"
+        sx={{
+          backdropFilter: "blur(12px)",
+          backgroundColor: (theme) =>
+            alpha(theme.palette.background.default, 0.72),
+          borderBottom: 1,
+          borderColor: "divider",
+        }}
+      >
+        <Toolbar sx={{ gap: 1 }}>
           <Typography variant="h6" component="h1" sx={{ flexGrow: 1 }}>
             GitHub Dashboard
           </Typography>
@@ -32,8 +50,8 @@ function AppLayout({ activePage, onPageChange, children }: AppLayoutProps) {
           <Tabs
             value={activePage}
             onChange={(_, value: PageKey) => onPageChange(value)}
-            textColor="inherit"
-            indicatorColor="secondary"
+            textColor="primary"
+            indicatorColor="primary"
             aria-label="Main navigation"
           >
             {PAGE_KEYS.map((key) => {
@@ -46,6 +64,7 @@ function AppLayout({ activePage, onPageChange, children }: AppLayoutProps) {
                   value={key}
                   icon={<Icon fontSize="small" />}
                   iconPosition="start"
+                  sx={{ minHeight: 64, textTransform: "none" }}
                   label={
                     showBadge ? (
                       <Badge badgeContent={trackedCount} color="secondary">
@@ -61,6 +80,20 @@ function AppLayout({ activePage, onPageChange, children }: AppLayoutProps) {
               );
             })}
           </Tabs>
+
+          <Tooltip
+            title={
+              mode === "dark" ? "Switch to light mode" : "Switch to dark mode"
+            }
+          >
+            <IconButton
+              onClick={toggle}
+              sx={{ ml: 0.5 }}
+              aria-label="Toggle color mode"
+            >
+              {mode === "dark" ? <LightModeIcon /> : <DarkModeIcon />}
+            </IconButton>
+          </Tooltip>
         </Toolbar>
       </AppBar>
 
