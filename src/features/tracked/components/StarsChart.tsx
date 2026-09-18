@@ -42,7 +42,7 @@ export function StarsChart({ repos }: { repos: RepoIdentifier[] }) {
         <BarChart
           height={CHART_HEIGHT}
           dataset={sorted.map((repo) => ({
-            name: repo.name,
+            name: repo.fullName,
             stars: repo.stars,
           }))}
           xAxis={[{ dataKey: "name", scaleType: "band" }]}
