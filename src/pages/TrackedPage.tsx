@@ -1,5 +1,4 @@
 import Stack from "@mui/material/Stack";
-import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
@@ -56,14 +55,12 @@ function TrackedPage() {
         </Button>
       </Stack>
 
-      <Box>
+      <Stack spacing={2}>
         <StarsChart repos={trackedRepos} />
-        <Stack spacing={2}>
-          {trackedRepos.map((repo) => (
-            <TrackedRepoCard key={`${repo.owner}/${repo.name}`} repo={repo} />
-          ))}
-        </Stack>
-      </Box>
+        {trackedRepos.map((repo) => (
+          <TrackedRepoCard key={`${repo.owner}/${repo.name}`} repo={repo} />
+        ))}
+      </Stack>
     </Stack>
   );
 }
