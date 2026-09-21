@@ -15,7 +15,7 @@ import LightModeIcon from "@mui/icons-material/LightModeOutlined";
 
 import { PAGES, type PageKey } from "../pages/registry";
 import { useTrackedRepos } from "../store/trackedRepos";
-import { useColorMode } from "./themeMode";
+import { useThemeMode } from "./themeMode";
 
 interface AppLayoutProps extends PropsWithChildren {
   activePage: PageKey;
@@ -26,7 +26,7 @@ const PAGE_KEYS = Object.keys(PAGES) as PageKey[];
 
 function AppLayout({ activePage, onPageChange, children }: AppLayoutProps) {
   const trackedCount = useTrackedRepos((s) => s.trackedRepos.length);
-  const { mode, toggle } = useColorMode();
+  const { mode, toggle } = useThemeMode();
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>

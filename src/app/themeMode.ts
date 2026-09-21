@@ -8,7 +8,7 @@ export interface ThemeContextValue {
 
 export const ThemeContext = createContext<ThemeContextValue | null>(null);
 
-export function useColorMode(): ThemeContextValue {
+export function useThemeMode(): ThemeContextValue {
   const context = use(ThemeContext);
   if (!context) {
     throw new Error("useTheme must be used within a ThemeProvider");
