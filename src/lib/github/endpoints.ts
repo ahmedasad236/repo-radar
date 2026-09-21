@@ -27,13 +27,16 @@ export function fetchRepo({ owner, name }: RepoIdentifier) {
   return githubFetch<GitHubRepo>(`/repos/${owner}/${name}`);
 }
 
-export async function fetchLastCommit({ owner, name }: RepoIdentifier) {
+export async function fetchLastCommit({
+  owner,
+  name,
+}: RepoIdentifier): Promise<GitHubCommit[]> {
   try {
     return await githubFetch<GitHubCommit[]>(
       `/repos/${owner}/${name}/commits?per_page=1`,
     );
   } catch (error) {
-    // repository is empty check
+    // 409 = empty repo (no commits yet), not a real error.
     if (isGitHubError(error) && error.status === 409) {
       return [];
     }
