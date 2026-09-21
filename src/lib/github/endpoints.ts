@@ -1,4 +1,5 @@
 import { githubFetch } from "./client";
+import { isGitHubError } from "./errors";
 import { toRepoDetails, toRepoSummary } from "./mappers";
 import type {
   GitHubCommit,
@@ -26,10 +27,18 @@ export function fetchRepo({ owner, name }: RepoIdentifier) {
   return githubFetch<GitHubRepo>(`/repos/${owner}/${name}`);
 }
 
-export function fetchLastCommit({ owner, name }: RepoIdentifier) {
-  return githubFetch<GitHubCommit[]>(
-    `/repos/${owner}/${name}/commits?per_page=1`,
-  );
+export async function fetchLastCommit({ owner, name }: RepoIdentifier) {
+  try {
+    return await githubFetch<GitHubCommit[]>(
+      `/repos/${owner}/${name}/commits?per_page=1`,
+    );
+  } catch (error) {
+    // repository is empty check
+    if (isGitHubError(error) && error.status === 409) {
+      return [];
+    }
+    throw error;
+  }
 }
 
 export async function fetchRepoDetails(
